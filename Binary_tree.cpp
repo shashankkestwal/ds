@@ -266,13 +266,6 @@ public:
 			deleted_node->data = new_data;
 		}
 	}
-// Create: creates an empty tree.
-// Insert: insert a node in the tree.
-// Search: Searches for a node in the tree.
-// Delete: deletes a node from the tree.
-// Inorder: in-order traversal of the tree.
-// Preorder: pre-order traversal of the tree.
-// Postorder: post-order traversal of the tree.
 };
 
 int main(int argc, char const *argv[])
