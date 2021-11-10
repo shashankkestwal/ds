@@ -32,7 +32,6 @@ public:
 		Node* n = create_node(data);
 		if (root == NULL)
 		{
-			cout << "Node inserted at root "<< endl;
 			root = n;
 			return;
 		}
@@ -102,6 +101,7 @@ public:
 				node_stack.push(current_node->left);
 			}
 		}
+		cout << endl;
 
 	}
 
@@ -123,6 +123,7 @@ public:
 
 	        curr = curr->right;
 	    } 
+	    cout << endl;
 	}
 
 	void interative_postorder_traversal() {
@@ -157,6 +158,7 @@ public:
 	        cout << node->data << " ";
 	        s2.pop();
 	    }
+	    cout << endl;
 	}
 
 	void recursive_postorder_traversal(Node * temp) {
@@ -256,6 +258,7 @@ public:
 			return ;
 		}
 
+
 		if (deleted_node->left != NULL && deleted_node->right != NULL){
 			Node* inorder_pre = this->inorder_predecessor_node(deleted_node);
 			int new_data = inorder_pre->data;
@@ -275,35 +278,57 @@ public:
 int main(int argc, char const *argv[])
 {
 	BinarySearchTree b;
-	cout << "Binary Search Tree " <<endl;
-	b.insert_in_tree(50);
-	b.insert_in_tree(10);
-	b.insert_in_tree(100);
-	b.insert_in_tree(8);
-	b.insert_in_tree(40);
-	b.insert_in_tree(60);
-	b.insert_in_tree(120);
-	b.insert_in_tree(2);
-	b.insert_in_tree(45);
-	b.insert_in_tree(55);
-	b.insert_in_tree(65);
+	cout << "_____Binary Search Tree_________ " <<endl;
 
-	b.interative_inorder_traversal();
-	b.delete_node(10);
-	cout <<endl;
-	b.interative_inorder_traversal();
-	// char more;
-	// do{
-	// 	cout <<"(i) create a node" <<endl;
-	// 	cout <<"(ii)insert a node "<<endl;
-	// 	cout <<"(iii)search a node " <<endl;
-	// 	cout <<"(iv)delete a node "<<endl;
-	// 	cout <<"(v)preorder traversal "<<endl;
-	// 	cout <<"(vi)inorder traversal"<<endl;
-	// 	cout <<"(vii)postorder traversal "<<endl;
+	char more;
+	do{
+		cout <<"(i)Insert a node "<<endl;
+		cout <<"(ii)Search a node " <<endl;
+		cout <<"(iii)Delete a node "<<endl;
+		cout <<"(iv)Preorder traversal ";
+		cout <<"Inorder traversal ";
+		cout <<"Postorder traversal "<<endl;
+		int choice;
+		cout << "Enter the operation you want to perform :";
+		cin >> choice ;
+		int data ;
+		switch (choice){
+			case 1:	
+				cout << "Enter the data for the node :";
+				cin >> data; 
+				b.insert_in_tree(data);
+				break;
+			case 2:
+				
+				cout << "Enter the data you want to search in tree :";
+				cin >> data ;
+				if (b.search_in_tree(data)){
+					cout << "Element found in the tree "<< endl;
+				} else{
+					cout << "Element not found "<< endl;
+				}
+				break;
+			case 3:
+				cout << " Enter the data you want to delete :"<< endl;
+				cin >> data;
+				b.delete_node(data);
+				break;
+			case 4:
+				cout << "preorder traversal "<< endl;
+				b.interative_preorder_traversal();
+				cout << "inorder traversal "<< endl;
+				b.interative_inorder_traversal();
+				cout << "postorder traversal "<< endl;
+				b.interative_postorder_traversal();
+				break;
+			default:
+				cout << "Invalid input "<<endl;
+				break;
+		}
 
-
-	// 	cin >> more;
-	// } while(more !='n' && more != 'N')
+		cout << "press n/N to exit :";
+		cin >> more;
+	} while(more !='n' && more != 'N');
 	return 0;	
 }
+
