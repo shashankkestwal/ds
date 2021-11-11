@@ -1,14 +1,13 @@
 #include <iostream>
 using namespace std;
- 
-template <typename T>
+
 class node
 {
 public:
-    T data;
+    int data;
     node *next;
     node *previous;
-    node(T el)
+    node(int el)
     {
         data = el;
         next = NULL;
@@ -19,34 +18,39 @@ public:
 class DoublyLinkedList
 {
 public:
+    node* head ;
 
-template <class T>
-    void insertAtHead(node<T> *head, T el)
+    DoublyLinkedList(){
+        this->head = NULL;
+    }
+
+
+    void insertAtHead(int el)
     {
-        node<T> *n = new node<T>(el);
+        node *n = new node(el);
 
         if (head == NULL)
         {
             head = n;
             return;
         }
-        node<T> *temp = head;
+        node *temp = head;
         head = n;
         temp->previous = head;
         head->next = temp;
     }
 
-template <class T>
-    void insertAtTail(node<T> *head, T el)
+
+    void insertAtTail(int el)
     {
-        node<T> *n = new node<T>(el);
+        node *n = new node(el);
         if (head == NULL)
         {
-            insertAtHead(head, el);
+            insertAtHead(el);
             return;
         }
 
-        node<T> *temp = head;
+        node *temp = head;
         while (temp->next != NULL)
         {
             temp = temp->next;
@@ -54,11 +58,11 @@ template <class T>
         temp->next = n;
         n->previous = temp;
     }
-template <class T>
 
-    void display(node<T> *head)
+
+    void display()
     {
-        node<T> *temp = head;
+        node *temp = head;
         if (temp == NULL)
         {
             cout << "Empty linked list" << endl;
@@ -73,18 +77,18 @@ template <class T>
             cout << "null" << endl;
         }
     }
-    template <class T>
+    
 
-    void insertAtPosition(node<T> *head, T el, int pos)
+    void insertAtPosition( int el, int pos)
     {
 
         if (pos == 1)
         {
-            insertAtHead(head, el);
+            insertAtHead( el);
             return;
         }
-        node<T> *n = new node<T>(el);
-        node<T> *temp = head;
+        node *n = new node(el);
+        node *temp = head;
         for (int i = 1; i < pos - 1; i++)
         {
             temp = temp->next;
@@ -99,26 +103,26 @@ template <class T>
         n->previous = temp;
         temp->next = n;
     }
-template <class T>
 
-    void deleteFromHead(node<T> *head)
+
+    void deleteFromHead()
     {
         if (head == NULL)
         {
             cout << "Operation not possible" << endl;
             return;
         }
-        node<T> *temp = head;
+        node *temp = head;
         head = temp->next;
         head->previous = NULL;
         cout << "Element successfully deleted from head" << endl;
     }
-    template <class T>
+    
 
 
-    void deleteFromTail(node<T> *head)
+    void deleteFromTail()
     {
-        node<T> *temp = head;
+        node *temp = head;
         while (temp->next != NULL)
         {
             temp = temp->next;
@@ -126,9 +130,9 @@ template <class T>
         temp->previous->next = NULL;
         temp->previous = NULL;
     }
-template <class T>
 
-    void deleteFromPosition(node<T> *head, int pos)
+
+    void deleteFromPosition(int pos)
     {
 
         if (head == NULL)
@@ -138,10 +142,10 @@ template <class T>
         }
         if (pos == 1)
         {
-            deleteFromHead(head);
+            deleteFromHead();
         }
 
-        node<T> *temp = head;
+        node *temp = head;
         for (int i = 1; i < pos; i++)
         {
             temp = temp->next;
@@ -149,7 +153,7 @@ template <class T>
             {
                 if (pos - 1 == i)
                 {
-                    deleteFromTail(head);
+                    deleteFromTail();
                 }
                 else
                 {
@@ -162,11 +166,11 @@ template <class T>
         temp->next->previous = temp->previous;
         cout << "Element successfully deleted from desired position " << endl;
     }
-template <class T>
 
-    void searchInList(node<T> *head, T el)
+
+    void searchInList(int el)
     {
-        node<T> *temp = head;
+        node *temp = head;
         if (head == NULL)
         {
             cout << "Operation not possible" << endl;
@@ -192,22 +196,25 @@ template <class T>
             cout << "Element not found in the linked list" << endl;
         }
     }
-template <class T>
 
-    void createSecondLinkedList(node<T> *head1)
+
+    node* createSecondLinkedList()
     {
+        
 
-        insertAtTail(head1, 1);
-        insertAtTail(head1, 2);
-        insertAtTail(head1, 3);
+        this->insertAtTail(1);
+        this->insertAtTail(2);
+        this->insertAtTail(3);
         cout << "Second linked list is created " << endl;
-        display(head1);
+        return this->head;
     }
-template <class T>
 
-    void concatenateDoublyLinkedList(node<T> *head, node<T> *head1)
+
+    void concatenateDoublyLinkedList()
     {
-        node<T> *temp = head;
+        node *temp = head;
+        DoublyLinkedList dll2;
+        node *head2 = dll2.createSecondLinkedList();
         if (head == NULL)
         {
             cout << "Linked list is empty.\tConcatenation not possible " << endl;
@@ -219,8 +226,9 @@ template <class T>
             {
                 temp = temp->next;
             }
-            temp->next = head1;
-            head1->previous = temp;
+            cout << endl << temp->data <<"  "<< head2->data<<endl;
+            temp->next = head2;
+            head2->previous = temp;
             cout << "Two lists has been concatenated" << endl;
         }
     }
@@ -231,8 +239,7 @@ int main(int argc, char const *argv[])
     cout << "-------CPP program implementing a linked list------- " << endl
          << endl;
 
-    node<int> *head = NULL;
-
+    
     cout << "An empty linked list is created" << endl;
 
     cout << "(i) Insert an element x at the front of the doubly linked list" << endl
@@ -244,7 +251,6 @@ int main(int argc, char const *argv[])
          << "(vii) Search for an element x in the doubly linked list and return its pointer" << endl
          << "(viii) Concatenate two doubly linked lists " << endl;
 
-    node<int> *head1 = NULL;
     DoublyLinkedList dll;
 
     char more;
@@ -260,9 +266,9 @@ int main(int argc, char const *argv[])
         case 1:
             cout << "Enter the element you want to enter : ";
             cin >> element;
-            dll.insertAtHead(head, element);
+            dll.insertAtHead(element);
             cout << "Element successfully inserted at head" << endl;
-            dll.display(head);
+            dll.display();
             break;
         case 2:
 
@@ -272,50 +278,51 @@ int main(int argc, char const *argv[])
             cin >> position;
             if (position == 1)
             {
-                dll.insertAtHead(head, element);
+                dll.insertAtHead(element);
             }
             else
             {
-                dll.insertAtPosition(head, element, position);
+                dll.insertAtPosition(element, position);
             }
 
-            dll.display(head);
+            dll.display();
             break;
         case 3:
             cout << "Enter the element you want to insert at tail :";
             cin >> element;
-            dll.insertAtTail(head, element);
-            dll.display(head);
+            dll.insertAtTail(element);
+            dll.display();
             break;
         case 4:
-            dll.deleteFromHead(head);
-            dll.display(head);
+            dll.deleteFromHead();
+            dll.display();
             break;
         case 5:
             cout << "Enter the position of element  you want to remove from the linked list :";
             cin >> position;
-            dll.deleteFromPosition(head, position);
-            dll.display(head);
+            dll.deleteFromPosition( position);
+            dll.display();
             break;
         case 6:
-            dll.deleteFromTail(head);
-            dll.display(head);
+            dll.deleteFromTail();
+            dll.display();
             break;
         case 7:
             cout << "Enter the element you want to search in the list :";
             cin >> element;
-            dll.searchInList(head, element);
-            dll.display(head);
+            dll.searchInList( element);
+            dll.display();
             break;
+
         case 8:
-            dll.createSecondLinkedList(head1);
-            dll.concatenateDoublyLinkedList(head, head1);
-            dll.display(head);
+            dll.concatenateDoublyLinkedList();
+            dll.display();
             break;
-        default:
-            cin.clear();
-            cout << "Invalid input" << endl;
-            break;
+
+        // default:
+        //     cin.clear();
+        //     cout << "Invalid input" << endl;
+        //     break;
         }
         cout << "Do you want to continue operations on linked list. Press n/N to exit :";
         cin >> more;
@@ -323,6 +330,6 @@ int main(int argc, char const *argv[])
              << endl;
     } while (more != 'n' && more != 'N');
 
-    dll.display(head);
     return 0;
 }
+
