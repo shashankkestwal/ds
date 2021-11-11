@@ -255,7 +255,7 @@ public:
     }
 
     
-    void concatenateTwoStrings()
+    void concatenateTwoLinkedLists()
     {
         if (this->head == NULL)
         {
@@ -373,7 +373,7 @@ int main(int argc, char const *argv[])
             circularLinkedList cll2;
             cll2.createNewLinkedList();
             cll2.display();
-            cll.concatenateTwoStrings();
+            cll.concatenateTwoLinkedLists();
             cll.display();
             break;
         }
