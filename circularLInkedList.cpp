@@ -41,9 +41,10 @@ public:
             last_element = last_element->next;
         }
 
-        n->next = head;
+        n->next = this->head;
         last_element->next = n;
-        
+        this->head = n;
+
     }
 
     
@@ -155,23 +156,20 @@ public:
             return;
         }
 
-        Node *temp = head;
-        Node *new_head;
-        while (temp->next != head)
+        Node *temp = this->head;
+
+        while (temp->next != this->head)
         {
             temp = temp->next;
         }
-
-        if (temp == this->head)
-        {
-            delete this->head;
+        if (temp == this->head) {
+            delete head;
             return ;
-        }
-        else
-        {
-            temp->next = head->next;
-            delete this->head;
-            
+        } else{
+            Node* old_head = this->head;
+            this->head = old_head->next;
+            temp->next = this->head;
+            delete old_head;
         }
     }
     
@@ -182,9 +180,9 @@ public:
             cout << "Operation not possible" << endl;
             return;
         }
-        else if (this->head->next == head)
+        else if (this->head->next == this->head)
         {
-            return ;
+            delete this->head;
         }
         else
         {
@@ -193,8 +191,8 @@ public:
             {
                 temp = temp->next;
             }
+            delete temp->next;
             temp->next = this->head;
-            
         }
     }
 
@@ -248,9 +246,9 @@ public:
 
     
     Node* createNewLinkedList() {
-        this->insertAtHead(3);
-        this->insertAtHead(2);
-        this->insertAtHead(1);
+        this->insertAtHead(30);
+        this->insertAtHead(20);
+        this->insertAtHead(10);
         return this->head;
     }
 
@@ -265,16 +263,19 @@ public:
         else
         {
             Node *temp1 = this->head;
-            Node *temp2 = this->createNewLinkedList();
+            circularLinkedList cll2;
+            Node *temp2 = cll2.createNewLinkedList();
+            Node *head2 = temp2;
+
             while (temp1->next != head) {
                 temp1 = temp1->next;
             }
-            while (temp2->next != head)
+            temp1->next = temp2;
+            while (temp2->next != head2)
             {
                 temp2 = temp2->next;
             }
             temp2->next = this->head;
-            temp1->next = this->head;
             cout << "Both linked list concatenated successfully" << endl;
         }
     }
@@ -369,10 +370,6 @@ int main(int argc, char const *argv[])
             break;
         case 8:
         {
-            
-            circularLinkedList cll2;
-            cll2.createNewLinkedList();
-            cll2.display();
             cll.concatenateTwoLinkedLists();
             cll.display();
             break;
