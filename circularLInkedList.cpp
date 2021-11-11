@@ -196,7 +196,6 @@ public:
         }
     }
 
-    
     void removeNodeWithGivenElement(int pos)
     {
 
