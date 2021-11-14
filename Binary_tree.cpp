@@ -70,6 +70,9 @@ public:
 
 
 	void breadth_first_traversal() {
+		if (this->root == NULL) {
+			return;
+		}
 		Node* node = this->root;
 		queue<Node*> nodes_queue;
 		nodes_queue.push(node);
@@ -286,10 +289,42 @@ public:
 			deleted_node->data = new_data;
 		}
 	}
+
+	int calculateHeight()
+	{
+    queue<Node*> nodesInLevel;
+    int height = 0;
+    int nodeCount = 0; 
+    Node* currentNode; 
+    
+    if (root == NULL) {
+        return 0;
+    }
+    nodesInLevel.push(root);
+    while (!nodesInLevel.empty()) {
+        height++;
+  
+        nodeCount = nodesInLevel.size();
+        while (nodeCount--) {
+            currentNode = nodesInLevel.front();
+
+            if (currentNode->left != NULL) {
+                nodesInLevel.push(currentNode->left);
+            }
+            if (currentNode->right != NULL) {
+                nodesInLevel.push(currentNode->right);
+            }
+            nodesInLevel.pop();
+        }
+    }
+    return height;
+	}
+
 };
 
 int main(int argc, char const *argv[]) { 
 	BinarySearchTree b;
+
 	cout << "_____Binary Search Tree_________ " <<endl;
 
 	char more;
@@ -300,6 +335,8 @@ int main(int argc, char const *argv[]) {
 		cout <<"(iv)Preorder traversal ";
 		cout <<"Inorder traversal ";
 		cout <<"Postorder traversal "<<endl;
+		cout <<"(v)Level by Level traversal"<<endl;
+		cout <<"(vi)Height of tree"<<endl;
 		int choice;
 		cout << "Enter the operation you want to perform :";
 		cin >> choice ;
@@ -332,6 +369,14 @@ int main(int argc, char const *argv[]) {
 				b.interative_inorder_traversal();
 				cout << "postorder traversal "<< endl;
 				b.interative_postorder_traversal();
+				break;
+			case 5:
+				cout << "level by level traversal"<<endl;
+				b.breadth_first_traversal();
+				cout << endl;
+				break;
+			case 6:
+				cout << "Height "<< b.calculateHeight();
 				break;
 			default:
 				cout << "Invalid input "<<endl;
