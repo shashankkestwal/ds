@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
 	cout << "Enter the size of the list : ";
 	cin >> N;
 	int list[N];
-	cout << "Enter the elements for the list : ";
+	cout << "Enter the elements for the list " << endl; 
 	for (int i = 0; i < N; ++i) {
 		cin >> list[i];
 	}
