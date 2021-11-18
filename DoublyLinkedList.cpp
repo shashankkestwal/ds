@@ -200,8 +200,6 @@ public:
 
     node* createSecondLinkedList()
     {
-        
-
         this->insertAtTail(1);
         this->insertAtTail(2);
         this->insertAtTail(3);
