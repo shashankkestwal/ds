@@ -23,12 +23,13 @@ int index_smallest( int size, int* array) {
 }
 
 void rotate_array(int rotate, int size, int * array) {
+	int temp = array[0];
 	for (int i = 0; i < rotate; i++) {
-		int temp = array[0];
+		
 		for (int j = size; j < 0; j--) {
 			array[j] = array[j-1];
 		}
-		array[size-1] = array[0];
+		array[size-1] = temp;;
 	}
 }
 
