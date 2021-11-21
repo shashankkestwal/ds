@@ -47,8 +47,9 @@ int rotateQueries() {
 
 void leftRotate(int size, int* array) {
 	int temp = array[0];
-	for (int i = size-1; i > 0; i--) {
-		array[i] = array[i-1];
+	int temp = array[0];
+	for (int j = 1; j < size; j++) {
+		array[j-1] = array[j];
 	}
 	array[size - 1] = temp;
 }
