@@ -13,7 +13,7 @@ int factorail(int num){
 
 int main(){
 	int number;
-	cout << "ENter the number whose factorial is needed :";
+	cout << "Enter the number whose factorial is needed :";
 	cin >> number;
 	cout << factorail(number);
 	return 0;
