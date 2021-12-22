@@ -27,6 +27,7 @@ public:
 	void deleteItem(int data );
 	void display();
 	bool isEmpty();
+	void reverseList();
 };
 
 bool SinglyLinkedList :: isEmpty() {
@@ -132,12 +133,33 @@ void SinglyLinkedList :: display(){
 	}
 }
 
+void SinglyLinkedList :: reverseList() {
+	if ( this->isEmpty()) {
+		return;
+	}
+	Node * newHead = this->tail;
+	Node* newTail = this->head;
+	Node* temp = this->head;
+    Node *prev = NULL, *store = temp;
+    while(temp != NULL) {
+    	store = store->next;
+    	temp->next = prev;
+    	prev = temp;
+    	temp = store;	
+    }
+    Node* temp1 = this->head;
+    this->head = this->tail;
+    this->tail = temp1;
+}
+
 int main() {
 	SinglyLinkedList s;
 	s.insertAtStart(10);
 	s.insertAtEnd(20);
-	s.deleteFromStart();
-	s.deleteItem(20);
+	s.display();
+	s.reverseList();
+	// s.deleteFromStart();
+	// s.deleteItem(20);
 	s.display();
 	return 0;
 }
