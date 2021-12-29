@@ -12,8 +12,6 @@ void rotate_right(int size, int rotate, int* array) {
 		array[0] = temp;
 		is++;
 	}
-
-	
 }
 
 void rotate_left(int size, int rotate, int * array) {

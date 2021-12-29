@@ -81,27 +81,28 @@ public:
 
     void insertAtPosition( int el, int pos)
     {
-
-        if (pos == 1)
-        {
-            insertAtHead( el);
-            return;
-        }
-        node *n = new node(el);
         node *temp = head;
-        for (int i = 1; i < pos - 1; i++)
+        for (int i = 1; i < pos ; i++)
         {
-            temp = temp->next;
-            if (temp->next == NULL)
-            {
-                cout << "List is shorter then the input index " << endl;
+            if (pos == 2) {
+                break;
+            }
+            if (temp->next != NULL) {
+                temp = temp->next;
+            } else {
                 return;
             }
         }
-        n->next = temp->next;
-        temp->next->previous = n;
-        n->previous = temp;
-        temp->next = n;
+        node *n = new node(el);
+        if (temp->next == NULL) {
+            n->previous = temp;
+            temp->next = n;
+        } else {
+            n->next = temp->next;
+            n->next->previous = n;
+            temp->next = n;
+            n->previous = temp;
+        }       
     }
 
 
@@ -113,8 +114,14 @@ public:
             return;
         }
         node *temp = head;
-        head = temp->next;
-        head->previous = NULL;
+        if (temp->next == NULL) {
+            delete temp;
+            this->head = NULL;
+        } else {
+            head = temp->next;
+            temp->next = NULL;
+            delete temp;
+        }
         cout << "Element successfully deleted from head" << endl;
     }
     
@@ -122,13 +129,22 @@ public:
 
     void deleteFromTail()
     {
+        if (head == NULL) {
+            return;
+        }
         node *temp = head;
         while (temp->next != NULL)
         {
             temp = temp->next;
         }
-        temp->previous->next = NULL;
-        temp->previous = NULL;
+        if (temp == head) {
+            this->head = NULL;
+            delete temp;
+        } else{
+            temp->previous->next = NULL;
+            temp->previous = NULL;
+            delete temp;
+        }
     }
 
 
@@ -148,23 +164,22 @@ public:
         node *temp = head;
         for (int i = 1; i < pos; i++)
         {
-            temp = temp->next;
-            if (temp->next == NULL)
-            {
-                if (pos - 1 == i)
-                {
-                    deleteFromTail();
-                }
-                else
-                {
-                    cout << "List is shorter then the input index " << endl;
-                }
+            if (temp->next != NULL) {
+                temp = temp->next;
+            }else {
+                cout << "List is shorter then the input index " << endl;
                 return;
             }
         }
-        temp->previous->next = temp->next;
-        temp->next->previous = temp->previous;
-        cout << "Element successfully deleted from desired position " << endl;
+        if (temp->next == NULL)
+        {
+            deleteFromTail();
+        }else{
+            node* delNode = temp->next;
+            temp->next = temp->next->next;
+            delNode->next->previous = temp;
+            delete delNode;
+        }
     }
 
 

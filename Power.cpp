@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-
 int power(int num, int pow) {
 	if (pow <= 0) {
 		return -1;

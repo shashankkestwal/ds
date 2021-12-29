@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+
 using namespace std;
 
 class Node{
@@ -54,6 +55,7 @@ public:
 			parent_node->left = n;
 		}
 	}
+	
 	bool search_in_tree(int data) {
 		Node* node = this->root;
 		while(node != NULL) {

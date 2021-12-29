@@ -3,13 +3,21 @@ using namespace std;
 
 template <class T>
 class Queue {
+
     private :
     int rear = -1;
     int front=  -1;
     int size = 5;
-    T arr[5];
-
+    int * arr ;
+    
     public:
+
+    Queue (int size){
+        this->size = size;
+        int* array = (int*)malloc(size*sizeof(int));
+        this->arr = array;
+    }
+    
     bool isEmpty () {
         if (front == rear && front == -1) {
             return true;
@@ -50,7 +58,7 @@ class Queue {
         } else if(this->front == -1 ) {
             cout <<"Queue is empty"<<endl;
             return ;
-        }else {        
+        } else {        
             cout << this->arr[front] << "  ";
             if(front == rear) {
                 front = rear = -1;
@@ -90,10 +98,14 @@ class Queue {
 };
 
 int main() {
-    Queue <int>q1;
+    int size ;
+    cout << "Enter the size of the queue :";
+    cin >> size;
+    Queue <int>q1 = Queue<int>(size);
     int choice;
     int element;
     char more;
+
     do {
         cout <<"(i)Enqueue in queue"<<endl
              <<"(ii)Dequeue in queue"<<endl

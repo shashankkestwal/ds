@@ -81,10 +81,13 @@ protected:
 		if(isEmpty()) {
 			return;		
 		}
-		if (this->head->next == NULL) {
-			this->head = this->tail = NULL;
-		}
 		Node* temp = this->head;
+		if (this->head->next == NULL) {
+			delete temp;
+			this->head = this->tail = NULL;
+			return;
+		}
+		
 		while(temp->next != NULL) {
 			temp = temp->next;
 		}
@@ -109,6 +112,9 @@ protected:
 	}
 
 	void traverseLinkedList(){
+		if (this->head == NULL) {
+			return ;
+		}
 		Node* temp = this->head;
 		while(temp != NULL) {
 			cout << temp->data<<"  ";
@@ -168,6 +174,7 @@ int main(int argc, char const *argv[])
 	q1.traverseQueue();
 	q1.popFront();
 	q1.popBack();
+	q1.popFront();
 	q1.traverseQueue();
 	return 0;
 }
