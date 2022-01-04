@@ -38,6 +38,8 @@ public:
 	void reverseListFromIndex(Node* index);
 	void removeDuplicatesIfSorted();
 	void removeDuplicates();
+
+	void moveLastToFirst();
 	// void revertReversal(Node* index );
 
 	// void swap(Node* temp1, Node* temp2);
@@ -54,6 +56,21 @@ public:
 		}
 	}
 };
+
+void SinglyLinkedList :: moveLastToFirst() {
+	if (this->head->next == NULL) {
+		return;
+	}
+	Node* temp = this->head;
+	while(temp->next != this->tail) {
+		temp = temp->next;
+	}
+	this->tail = temp;
+	temp = temp->next;
+	temp->next = this->head;
+	this->tail->next = NULL;
+	this->head = temp;
+}
 
 Node* SinglyLinkedList :: findMiddleNode() {
 	Node* slow_p = this->head;
@@ -400,19 +417,22 @@ SinglyLinkedList intersectionLinkedList(SinglyLinkedList s1, SinglyLinkedList s2
 int main() {
 	SinglyLinkedList s;
 	s.insertAtEnd(10);
+	s.insertAtEnd(20);
 	s.insertAtEnd(10);
-	// s.insertAtEnd(10);
-	s.insertAtEnd(20);
-	s.insertAtEnd(20);
-	s.insertAtEnd(20);
-	s.insertAtEnd(30);
 	s.insertAtEnd(30);
 	s.insertAtEnd(40);
-	s.insertAtEnd(40);
-
-
+	s.insertAtEnd(50);
+	s.insertAtEnd(60);
+	s.insertAtEnd(70);
+	s.insertAtEnd(80);
+	s.insertAtEnd(100);
 	s.display();
-	
+	s.moveLastToFirst();
+	s.display();
+
+
+
+
 	// cout << "palindrome :" <<s.checkPalindrome() << endl;
 	// // s.reverseListFromIndex();
 	// // s.pairWiseSwap();
@@ -431,17 +451,17 @@ int main() {
 
 
 
-	SinglyLinkedList s1;
-	s1.insertAtEnd(10);
-	s1.insertAtEnd(10);
-	s1.insertAtEnd(20);
-	s1.insertAtEnd(30);
-	s1.insertAtEnd(40);
-	s1.display();
+	// SinglyLinkedList s1;
+	// s1.insertAtEnd(10);
+	// s1.insertAtEnd(10);
+	// s1.insertAtEnd(20);
+	// s1.insertAtEnd(30);
+	// s1.insertAtEnd(40);
+	// s1.display();
 
 
-	SinglyLinkedList intersectedList = intersectionLinkedList(s,s1);
-	intersectedList.display();
+	// SinglyLinkedList intersectedList = intersectionLinkedList(s,s1);
+	// intersectedList.display();
 
 
 	return 0;
