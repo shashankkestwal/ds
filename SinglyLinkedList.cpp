@@ -28,7 +28,43 @@ public:
 	void display();
 	bool isEmpty();
 	void reverseList();
+	void deleteList();
+	void findMiddleElement();
+	bool detectLoops();
+	int countNodesinLoop(Node * ptr);
 };
+
+int SinglyLinkedList :: countNodesInLoop(Node* ptr) {
+	count = 1;
+	Node* temp = ptr->next;
+	if (temp = ptr) {
+		return count;
+	}
+	while(temp != ptr) {
+		count++;
+	}
+	return count;
+}
+
+bool SinglyLinkedList :: detectLoops() {
+	bool found = false;
+	Node* slow_p;
+	Node* fast_p;
+	slow_p = fast_p = this->head;
+	while(fast_p == NULL && fast_p->next == NULL) {
+		slow_p = slow_p->next;
+		fast_p = fast_p->next->next;
+		if (slow_p == fast_p) {
+			cout << "Length of the loop is : " << count << endl;
+			found = true;
+		}
+	}
+	if (found = true) {
+		cout << slow_p << endl;
+	}
+	return found;
+}
+
 
 bool SinglyLinkedList :: isEmpty() {
 	if (this->head == NULL) {
@@ -152,12 +188,37 @@ void SinglyLinkedList :: reverseList() {
     this->tail = temp1;
 }
 
+void SinglyLinkedList :: deleteList() {
+	Node * temp = head; 
+	while(head != NULL) {
+		temp = head ;
+		head = head->next ;
+		delete temp;
+	}
+}
+
+void SinglyLinkedList ::findMiddleElement() {
+	Node* slow_p;
+	Node* fast_p;
+	slow_p = fast_p = this->head;
+	while(fast_p != NULL && fast_p != this->tail) {
+		fast_p = fast_p->next->next;
+		slow_p = slow_p->next;
+	}
+	cout << "Middle element is : " << slow_p->data<< endl;
+}
+
 int main() {
 	SinglyLinkedList s;
-	s.insertAtStart(10);
+	s.insertAtEnd(10);
 	s.insertAtEnd(20);
+	s.insertAtEnd(30);
+	s.insertAtEnd(40);
+	s.insertAtEnd(50);
 	s.display();
-	s.reverseList();
+	// cout << s.detectLoops();
+	// s.reverseList();
+	s.findMiddleElement();
 	// s.deleteFromStart();
 	// s.deleteItem(20);
 	s.display();
