@@ -31,11 +31,11 @@ public:
 	void deleteList();
 	void findMiddleElement();
 	bool detectLoops();
-	int countNodesinLoop(Node * ptr);
+	int countNodesInLoop(Node * ptr);
 };
 
 int SinglyLinkedList :: countNodesInLoop(Node* ptr) {
-	count = 1;
+	int count = 1;
 	Node* temp = ptr->next;
 	if (temp = ptr) {
 		return count;
@@ -55,12 +55,11 @@ bool SinglyLinkedList :: detectLoops() {
 		slow_p = slow_p->next;
 		fast_p = fast_p->next->next;
 		if (slow_p == fast_p) {
-			cout << "Length of the loop is : " << count << endl;
 			found = true;
 		}
 	}
 	if (found = true) {
-		cout << slow_p << endl;
+		cout << countNodesInLoop(slow_p);
 	}
 	return found;
 }
