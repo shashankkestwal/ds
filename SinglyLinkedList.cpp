@@ -33,6 +33,11 @@ public:
 	bool detectLoops();
 	int countNodesInLoop(Node * ptr);
 	void pairWiseSwap();
+	bool checkPalindrome();
+	Node* findMiddleNode();
+	void reverseListFromIndex(Node* index);
+	// void revertReversal(Node* index );
+
 	// void swap(Node* temp1, Node* temp2);
 
 	int getLength() {
@@ -47,6 +52,68 @@ public:
 		}
 	}
 };
+
+Node* SinglyLinkedList :: findMiddleNode() {
+	Node* slow_p = this->head;
+	Node* fast_p = this->head;
+	while(fast_p != NULL && fast_p != tail) {
+		fast_p = fast_p->next->next;
+		slow_p = slow_p->next;
+	}
+	return slow_p;
+}
+
+void SinglyLinkedList :: reverseListFromIndex(Node* index) {
+	Node* prev = NULL;
+	Node* curr = index->next;
+	Node* new_tail = curr;
+	Node* temp = curr->next;
+	while(temp != NULL ){
+		temp = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = temp;
+	}
+	index->next	= this->tail;
+	this->tail = new_tail;
+}
+
+// void SinglyLinkedList :: revertReversal(Node* index) {
+// 	Node* temp1 = this->tail;
+// 	Node* new_tail = index->next;
+// 	Node* prev = NULL;
+// 	Node* curr = index->next;
+// 	Node* temp = curr->next;
+// 	while(temp != NULL) {
+
+// 	}
+// }
+
+bool SinglyLinkedList :: checkPalindrome() {
+	bool value = true;
+	Node* middle = this->findMiddleNode();
+	this->reverseListFromIndex(middle);
+	
+	Node* temp1 = this->head;
+	Node* temp2 = middle->next;
+	while(temp1 != middle && temp2 != NULL) {
+		if (temp1->data != temp2->data) {
+			value = false;
+		}
+		temp1 = temp1->next;
+		temp2 = temp2->next;
+	}
+	this->reverseListFromIndex(middle);
+	
+
+	if (temp1 == middle && temp2 == NULL) {
+		return value;
+	} else if(temp1 != middle ) {
+		return value;
+	} 
+
+	return value;
+}
 
 
 void SinglyLinkedList :: pairWiseSwap() {
@@ -222,6 +289,7 @@ void SinglyLinkedList :: display(){
 		cout << temp->data<<" ";
 		temp = temp->next;
 	}
+	cout << endl;
 }
 
 void SinglyLinkedList :: reverseList() {
@@ -260,19 +328,22 @@ void SinglyLinkedList ::findMiddleElement() {
 		fast_p = fast_p->next->next;
 		slow_p = slow_p->next;
 	}
-	cout << "Middle element is : " << slow_p->data<< endl;
+	cout <<"Middle element is : " << slow_p->data<< endl;
 }
 
 int main() {
 	SinglyLinkedList s;
+	s.insertAtEnd(60);
 	s.insertAtEnd(10);
 	s.insertAtEnd(20);
 	s.insertAtEnd(30);
-	s.insertAtEnd(40);
-	s.insertAtEnd(50);
+	s.insertAtEnd(20);
+	s.insertAtEnd(10);
 	s.insertAtEnd(60);
 	s.display();
-	s.pairWiseSwap();
+	cout << "palindrome :" <<s.checkPalindrome() << endl;
+	// s.reverseListFromIndex();
+	// s.pairWiseSwap();
 	// cout << s.detectLoops();
 	// s.reverseList();
 	s.findMiddleElement();
