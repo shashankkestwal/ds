@@ -32,7 +32,63 @@ public:
 	void findMiddleElement();
 	bool detectLoops();
 	int countNodesInLoop(Node * ptr);
+	void pairWiseSwap();
+	// void swap(Node* temp1, Node* temp2);
+
+	int getLength() {
+		return getLengthFromNode(head);
+	}
+
+	int getLengthFromNode(Node * ptr) {
+		if(ptr == NULL) {
+			return 0;
+		} else {
+			return 1 + getLengthFromNode(ptr->next);
+		}
+	}
 };
+
+
+void SinglyLinkedList :: pairWiseSwap() {
+	Node* temp1;
+	Node* temp2 = NULL;
+	Node* behind = this->head ;
+	if (behind->next == NULL) {
+		return;
+	}
+	Node* after = behind->next;
+	int step = 0;
+
+	while(behind != NULL && after != NULL) {
+		cout << behind->data <<"  "<< after->data << endl;
+		temp1 = after->next;
+		if (behind == this->head) {
+			this->head = after;
+		}
+		if (after == this->tail) {
+			this->tail = behind;
+		}
+
+
+		if (step != 0) {
+			temp2->next = after;
+			after->next = behind;
+			behind->next = temp1;
+			temp2 = behind;		
+		} else {
+			temp2 = behind;
+			after->next = behind;
+			behind->next = temp1;
+		}
+		
+		if (temp1 == NULL) {
+			break;
+		}
+		behind = temp1;
+		after = temp1->next;
+		step++;
+	}
+}
 
 int SinglyLinkedList :: countNodesInLoop(Node* ptr) {
 	int count = 1;
@@ -214,7 +270,9 @@ int main() {
 	s.insertAtEnd(30);
 	s.insertAtEnd(40);
 	s.insertAtEnd(50);
+	s.insertAtEnd(60);
 	s.display();
+	s.pairWiseSwap();
 	// cout << s.detectLoops();
 	// s.reverseList();
 	s.findMiddleElement();
