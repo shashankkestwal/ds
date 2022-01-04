@@ -36,6 +36,7 @@ public:
 	bool checkPalindrome();
 	Node* findMiddleNode();
 	void reverseListFromIndex(Node* index);
+	void removeDuplicates();
 	// void revertReversal(Node* index );
 
 	// void swap(Node* temp1, Node* temp2);
@@ -331,15 +332,32 @@ void SinglyLinkedList ::findMiddleElement() {
 	cout <<"Middle element is : " << slow_p->data<< endl;
 }
 
+void SinglyLinkedList :: removeDuplicates() {
+	Node* temp = this->head;
+	while(temp->next != NULL) {
+		if (temp->next->data == temp->data) {
+			Node* duplicate = temp->next;
+			temp->next = duplicate->next;
+			duplicate->next = NULL;
+			delete(duplicate);
+			continue;
+		} 
+		temp = temp->next;
+	}
+}
+
 int main() {
 	SinglyLinkedList s;
-	s.insertAtEnd(60);
 	s.insertAtEnd(10);
+	s.insertAtEnd(10);
+	// s.insertAtEnd(10);
+	s.insertAtEnd(20);
+	s.insertAtEnd(20);
 	s.insertAtEnd(20);
 	s.insertAtEnd(30);
-	s.insertAtEnd(20);
-	s.insertAtEnd(10);
-	s.insertAtEnd(60);
+	s.insertAtEnd(30);
+	s.insertAtEnd(40);
+	s.insertAtEnd(40);
 	s.display();
 	cout << "palindrome :" <<s.checkPalindrome() << endl;
 	// s.reverseListFromIndex();
@@ -349,6 +367,8 @@ int main() {
 	s.findMiddleElement();
 	// s.deleteFromStart();
 	// s.deleteItem(20);
+	s.display();
+	s.removeDuplicates();
 	s.display();
 	return 0;
 }
