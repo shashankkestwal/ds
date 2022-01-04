@@ -4,8 +4,6 @@
 using namespace std;
 
 
-
-
 int main() {
 	int row , coloumn;
 	cin >> row;

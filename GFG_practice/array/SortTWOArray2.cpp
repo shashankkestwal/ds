@@ -14,7 +14,6 @@ void reorderArray(int arr1[], int arr2[], int size) {
 			swap(arr2[i], arr2[arr2[i]]);
  		}
 	}
-
 	for (int i = 0; i < size; ++i)
 	{
 		arr2[i] = i;
