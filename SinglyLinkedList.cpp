@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 class Node{
@@ -36,6 +36,7 @@ public:
 	bool checkPalindrome();
 	Node* findMiddleNode();
 	void reverseListFromIndex(Node* index);
+	void removeDuplicatesIfSorted();
 	void removeDuplicates();
 	// void revertReversal(Node* index );
 
@@ -332,7 +333,7 @@ void SinglyLinkedList ::findMiddleElement() {
 	cout <<"Middle element is : " << slow_p->data<< endl;
 }
 
-void SinglyLinkedList :: removeDuplicates() {
+void SinglyLinkedList :: removeDuplicatesIfSorted() {
 	Node* temp = this->head;
 	while(temp->next != NULL) {
 		if (temp->next->data == temp->data) {
@@ -342,6 +343,31 @@ void SinglyLinkedList :: removeDuplicates() {
 			delete(duplicate);
 			continue;
 		} 
+		temp = temp->next;
+	}
+}
+
+void SinglyLinkedList :: removeDuplicates() {
+	unordered_set<int> set;
+	if (this->head == NULL) {
+		return;
+	}
+	Node* temp = this->head;
+	Node* prev = temp;
+	while(temp != NULL) {
+		if (set.empty()) {
+			set.insert(temp->data);
+		} else{
+			if (set.count(temp->data)) {
+				prev->next = temp->next;
+				temp->next = NULL;
+				delete(temp);
+				temp = prev;
+			} else {
+				set.insert(temp->data);
+			}
+		}
+		prev = temp;
 		temp = temp->next;
 	}
 }
@@ -369,6 +395,7 @@ int main() {
 	// s.deleteItem(20);
 	s.display();
 	s.removeDuplicates();
+	// s.removeDuplicatesIfSorted();
 	s.display();
 	return 0;
 }
