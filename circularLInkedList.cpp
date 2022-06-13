@@ -1,7 +1,5 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-
-
 
 class Node
 {
@@ -41,9 +39,10 @@ public:
             last_element = last_element->next;
         }
 
-        n->next = head;
+        n->next = this->head;
         last_element->next = n;
-        
+        this->head = n;
+
     }
 
     
@@ -155,23 +154,20 @@ public:
             return;
         }
 
-        Node *temp = head;
-        Node *new_head;
-        while (temp->next != head)
+        Node *temp = this->head;
+
+        while (temp->next != this->head)
         {
             temp = temp->next;
         }
-
-        if (temp == this->head)
-        {
-            delete this->head;
+        if (temp == this->head) {
+            delete head;
             return ;
-        }
-        else
-        {
-            temp->next = head->next;
-            delete this->head;
-            
+        } else{
+            Node* old_head = this->head;
+            this->head = old_head->next;
+            temp->next = this->head;
+            delete old_head;
         }
     }
     
@@ -182,9 +178,9 @@ public:
             cout << "Operation not possible" << endl;
             return;
         }
-        else if (this->head->next == head)
+        else if (this->head->next == this->head)
         {
-            return ;
+            delete this->head;
         }
         else
         {
@@ -193,12 +189,11 @@ public:
             {
                 temp = temp->next;
             }
+            delete temp->next;
             temp->next = this->head;
-            
         }
     }
 
-    
     void removeNodeWithGivenElement(int pos)
     {
 
@@ -248,14 +243,14 @@ public:
 
     
     Node* createNewLinkedList() {
-        this->insertAtHead(3);
-        this->insertAtHead(2);
-        this->insertAtHead(1);
+        this->insertAtHead(30);
+        this->insertAtHead(20);
+        this->insertAtHead(10);
         return this->head;
     }
 
     
-    void concatenateTwoStrings()
+    void concatenateTwoLinkedLists()
     {
         if (this->head == NULL)
         {
@@ -265,130 +260,239 @@ public:
         else
         {
             Node *temp1 = this->head;
-            Node *temp2 = this->createNewLinkedList();
+            circularLinkedList cll2;
+            Node *temp2 = cll2.createNewLinkedList();
+            Node *head2 = temp2;
+
             while (temp1->next != head) {
                 temp1 = temp1->next;
             }
-            while (temp2->next != head)
+            temp1->next = temp2;
+            while (temp2->next != head2)
             {
                 temp2 = temp2->next;
             }
             temp2->next = this->head;
-            temp1->next = this->head;
             cout << "Both linked list concatenated successfully" << endl;
         }
     }
-    
+
+    Node* findMiddle() {
+        if (this->head == NULL) {
+            return NULL;
+        }
+        Node* slow_p = this->head;
+        Node* fast_p = this->head;
+        while(fast_p->next != this->head && fast_p->next->next != this->head) {
+            slow_p = slow_p->next;
+            fast_p = fast_p->next->next;
+        }
+        return slow_p;
+    }
+
+    void insertNodeInSortedOrder(int data) {
+        if (this->head == NULL) {
+            this->insertAtHead(data);
+            return;
+        } 
+
+        Node* prev = NULL;
+        Node* temp = this->head;
+
+        while(temp->data < data && temp->next != this->head) {
+            prev = temp;
+            temp = temp->next;
+        } 
+        if (prev == NULL) {
+            if (temp->data > data) {
+                this->insertAtHead(data);
+            } else{
+                this->insertAtEnd(data);
+            }
+            return;
+        }
+        Node* n = new Node(data);
+        prev->next = n;
+        n->next = temp;
+    }
+
+    void exchangeFirstWithLast(){
+        if (this->head->next == this->head ) {
+            return;
+        }
+        Node* temp = this->head;
+        while(temp->next != this->head) {
+            temp = temp->next;
+        }
+        auto temp_d = this->head->data;
+        this->head->data = temp->data;
+        temp->data = temp_d;
+    }
 };
 
+circularLinkedList splitList(circularLinkedList original) {
+    Node* middle = original.findMiddle();
+
+    Node* temp = middle->next;
+   
+    Node* new_head = temp;
+    middle->next = original.head;
+    
+
+    circularLinkedList newCll;
+    while(temp->next != original.head) {
+        temp = temp->next;
+    }
+
+    temp->next = new_head; 
+    newCll.head = new_head;
+
+    return newCll;
+}
+
+int JosephusCircle(int n, int k) {
+    circularLinkedList josephusCircleList;
+    for (int i = 0; i < n; i++) {
+        josephusCircleList.insertAtEnd(i);
+    }
+    josephusCircleList.display();
+    Node* temp = josephusCircleList.head;
+    while(temp->next != temp){
+        for (int i = 1; i < k-1; ++i) {
+            temp = temp->next;
+        }
+        // if (temp->next = josephusCircleList.head) {
+        //     josephusCircleList.head = josephusCircleList.head->next;
+        // }
+        Node* delNode = temp->next;
+        temp->next = temp->next->next;
+        if (delNode == josephusCircleList.head) {
+            josephusCircleList.head = josephusCircleList.head->next;
+        }
+        delNode->next = NULL;
+        cout << "deleting :" << delNode->data << endl;
+        delete(delNode);
+    }
+    return josephusCircleList.head->data;
+}
 int main(int argc, char const *argv[])
 {
+    // cout << JosephusCircle(4,2) << endl;
 
-    cout << "-------CPP program implementing a linked list------- " << endl
-         << endl;
-    
     circularLinkedList cll;
-    char more;
-    int element, position, search;
+    cll.insertAtEnd(10);
+    cll.insertAtEnd(20);
+    cll.insertAtEnd(30);
+    cll.insertAtEnd(40);
+    cll.insertAtEnd(50);
+    cll.insertAtEnd(60);
+    cll.insertAtEnd(70);
+    cll.exchangeFirstWithLast();
+    cll.display();
+    // circularLinkedList cll2 = splitList(cll);
+    // cll.display();
+    // cll2.display();
+    // cout << "-------CPP program implementing a linked list------- " << endl
+    //      << endl;
+    
+    // circularLinkedList cll;
+    // char more;
+    // int element, position, search;
 
-    do
-    {
-        cout << "(i) Insert an element at the beginning of the circular linked list" << endl
-             << "(ii) Insert an element x after an element y in the circular linked list" << endl
-             << "(iii)Insert an element at the end of the circular linked list" << endl
-             << "(iv) Remove an element from the back of the circular linked list." << endl
-             << "(v) Remove an element from the front of the circular linked list." << endl
-             << "(vi) Remove the element from the circularly linked list " << endl
-             << "(vii)Search for an element from the circularly linked list and return its pointer" << endl
-             << "(viii) Concatenate two circularly linked lists" << endl
-             << endl; 
+    // do
+    // {
+    //     cout << "(i) Insert an element at the beginning of the circular linked list" << endl
+    //          << "(ii) Insert an element x after an element y in the circular linked list" << endl
+    //          << "(iii)Insert an element at the end of the circular linked list" << endl
+    //          << "(iv) Remove an element from the back of the circular linked list." << endl
+    //          << "(v) Remove an element from the front of the circular linked list." << endl
+    //          << "(vi) Remove the element from the circularly linked list " << endl
+    //          << "(vii)Search for an element from the circularly linked list and return its pointer" << endl
+    //          << "(viii) Concatenate two circularly linked lists" << endl
+    //          << endl; 
 
-        int choice;
-        cout << "Enter which operation you want to peform : ";
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            cout << "Enter the element you want to enter : ";
-            cin >> element;
+    //     int choice;
+    //     cout << "Enter which operation you want to peform : ";
+    //     cin >> choice;
+    //     switch (choice)
+    //     {
+    //     case 1:
+    //         cout << "Enter the element you want to enter : ";
+    //         cin >> element;
 
-            cll.insertAtHead( element);
+    //         cll.insertAtHead( element);
 
-            cout << "Element successfully inserted at head" << endl;
-            cll.display();
-            break;
-        case 2:
+    //         cout << "Element successfully inserted at head" << endl;
+    //         cll.display();
+    //         break;
+    //     case 2:
 
-            cout << "Enter the element you want to enter : ";
-            cin >> element;
-            cout << "Enter the element whose next the given element  must reside : ";
-            cin >> search;
+    //         cout << "Enter the element you want to enter : ";
+    //         cin >> element;
+    //         cout << "Enter the element whose next the given element  must reside : ";
+    //         cin >> search;
 
-            if (cll.search_in_list(search) == -1)
-            {
-                cout << "No element as " << search << " in the list" << endl;
-                break;
-            }
+    //         if (cll.search_in_list(search) == -1)
+    //         {
+    //             cout << "No element as " << search << " in the list" << endl;
+    //             break;
+    //         }
 
-            cll.insertAfterPosition( element, cll.search_in_list(search));
-            cll.display();
-            break;
-        case 3:
-            cout << "Enter the element you want to enter : ";
-            cin >> element;
-            cll.insertAtEnd(element);
-            cll.display();
-            break;
-        case 4:
-            cll.deleteFromStart();
-            cll.display();
-            break;
-        case 5:
-            cll.deleteFromEnd();
-            cll.display();
-            break;
-        case 6:
-            cout << "Enter Element you want to remove :";
-            cin >> search;
-            cll.removeNodeWithGivenElement(cll.search_in_list(search));
-            cll.display();
-            break;
-        case 7:
-            cout << "Enter which element's pointer you want to print :";
-            cin >> search;
-            position = cll.search_in_list( search);
-            if (position == -1)
-            {
-                cout << "Element Not found in the list " << endl;
-                break;
-            }
-            else
-            {
-                cll.printPointerOfPos( position);
-            }
-            break;
-        case 8:
-        {
-            
-            circularLinkedList cll2;
-            cll2.createNewLinkedList();
-            cll2.display();
-            cll.concatenateTwoStrings();
-            cll.display();
-            break;
-        }
+    //         cll.insertAfterPosition( element, cll.search_in_list(search));
+    //         cll.display();
+    //         break;
+    //     case 3:
+    //         cout << "Enter the element you want to enter : ";
+    //         cin >> element;
+    //         cll.insertAtEnd(element);
+    //         cll.display();
+    //         break;
+    //     case 4:
+    //         cll.deleteFromStart();
+    //         cll.display();
+    //         break;
+    //     case 5:
+    //         cll.deleteFromEnd();
+    //         cll.display();
+    //         break;
+    //     case 6:
+    //         cout << "Enter Element you want to remove :";
+    //         cin >> search;
+    //         cll.removeNodeWithGivenElement(cll.search_in_list(search));
+    //         cll.display();
+    //         break;
+    //     case 7:
+    //         cout << "Enter which element's pointer you want to print :";
+    //         cin >> search;
+    //         position = cll.search_in_list( search);
+    //         if (position == -1)
+    //         {
+    //             cout << "Element Not found in the list " << endl;
+    //             break;
+    //         }
+    //         else
+    //         {
+    //             cll.printPointerOfPos( position);
+    //         }
+    //         break;
+    //     case 8:
+    //     {
+    //         cll.concatenateTwoLinkedLists();
+    //         cll.display();
+    //         break;
+    //     }
         
 
-        default:
-            cin.clear();
-            cout << "Invalid input" << endl;
-            break;
-        }
-        cout << "Do you want to continue operations on linked list, press n/N to exit : ";
-        cin >> more;
+    //     default:
+    //         cin.clear();
+    //         cout << "Invalid input" << endl;
+    //         break;
+    //     }
+    //     cout << "Do you want to continue operations on linked list, press n/N to exit : ";
+    //     cin >> more;
 
-        cout << endl
-             << endl;
-    } while (more != 'n' && more != 'N');
+    //     cout << endl
+    //          << endl;
+    // } while (more != 'n' && more != 'N');
     return 0;
 }

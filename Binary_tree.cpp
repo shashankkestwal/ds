@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+
 using namespace std;
 
 class Node{
@@ -45,6 +46,7 @@ public:
 				node = node->right;
 			} else if (n->data == node->data) {
 				cout <<"cannot put identical data in binary tree"<<endl;
+				return;
 			}
 		}
 		if (parent_node->data < n->data){
@@ -53,6 +55,7 @@ public:
 			parent_node->left = n;
 		}
 	}
+	
 	bool search_in_tree(int data) {
 		Node* node = this->root;
 		while(node != NULL) {
@@ -69,6 +72,9 @@ public:
 
 
 	void breadth_first_traversal() {
+		if (this->root == NULL) {
+			return;
+		}
 		Node* node = this->root;
 		queue<Node*> nodes_queue;
 		nodes_queue.push(node);
@@ -86,6 +92,10 @@ public:
 	}
 
 	void interative_preorder_traversal() {
+		if (this->root == NULL){
+			cout << "empty tree"<<endl;
+	        return;
+	 	}
 		Node* node = this->root;
 		stack<Node*> node_stack;
 		node_stack.push(node);
@@ -107,6 +117,10 @@ public:
 
 	
 	void interative_inorder_traversal () {
+		if (this->root == NULL){
+			cout << "empty tree"<<endl;
+	        return;
+	 	}
 		stack<Node*> s;
 	    Node *curr = root;
 	 
@@ -127,9 +141,10 @@ public:
 	}
 
 	void interative_postorder_traversal() {
-		if (root == NULL)
-	       return;
-	 
+		if (this->root == NULL){
+			cout << "empty tree"<<endl;
+	        return;
+	 	}
 	    // Create two stacks
 	    stack<Node*> s1, s2;
 	 
@@ -182,8 +197,12 @@ public:
 
 	Node* search_tree(int data) {
 
+		if (this->root->data == data) {
+			return this->root;
+		}
+
 		Node* node = this->root;
-		Node* parentNode ;
+		Node* parentNode;
 		while(node != NULL ) {
 			if (data == node->data) {
 				return parentNode;
@@ -200,22 +219,20 @@ public:
 	}
 
 	void delete_node(int deleted_node_data) {
-		if (root->data == deleted_node_data) {
-			Node* inorder_pre = this->inorder_predecessor_node(root);
-			int new_data = inorder_pre->data;
-			delete_node(inorder_pre->data);
-			root->data = new_data;
+		
+		Node* parent_node = search_tree(deleted_node_data);
+		if (parent_node == NULL) {
 			return;
 		}
-
-
-		Node* parent_node = search_tree(deleted_node_data);
 		Node* deleted_node;
 		char child ;
 
 	 	if (parent_node->data > deleted_node_data) {
 			deleted_node = parent_node->left;
 			child = 'l';
+		} else if (parent_node->data == deleted_node_data) {
+			child = 'b';
+			deleted_node = parent_node;
 		} else {
 			deleted_node = parent_node->right;
 			child = 'r';
@@ -229,6 +246,9 @@ public:
 			} else if (child == 'r') {
 				parent_node->right = NULL;
 				delete deleted_node;
+			} else {
+				this->root = NULL;
+				delete parent_node; 
 			}
 			return;
 		}
@@ -240,6 +260,9 @@ public:
 				free(deleted_node);
 			} else if (child == 'r') {
 				parent_node->right = connecting_node;
+				free(deleted_node);
+			} else {
+				this->root = parent_node->right ;
 				free(deleted_node);
 			}
 			return ;
@@ -254,10 +277,12 @@ public:
 			} else if (child == 'r') {
 				parent_node->right = connecting_node;
 				free(deleted_node);
+			} else {
+				this->root = parent_node->left ;
+				free(deleted_node);
 			}
 			return ;
 		}
-
 
 		if (deleted_node->left != NULL && deleted_node->right != NULL){
 			Node* inorder_pre = this->inorder_predecessor_node(deleted_node);
@@ -266,11 +291,42 @@ public:
 			deleted_node->data = new_data;
 		}
 	}
+
+	int calculateHeight()
+	{
+    queue<Node*> nodesInLevel;
+    int height = 0;
+    int nodeCount = 0; 
+    Node* currentNode; 
+    
+    if (root == NULL) {
+        return 0;
+    }
+    nodesInLevel.push(root);
+    while (!nodesInLevel.empty()) {
+        height++;
+  
+        nodeCount = nodesInLevel.size();
+        while (nodeCount--) {
+            currentNode = nodesInLevel.front();
+
+            if (currentNode->left != NULL) {
+                nodesInLevel.push(currentNode->left);
+            }
+            if (currentNode->right != NULL) {
+                nodesInLevel.push(currentNode->right);
+            }
+            nodesInLevel.pop();
+        }
+    }
+    return height;
+	}
+
 };
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) { 
 	BinarySearchTree b;
+
 	cout << "_____Binary Search Tree_________ " <<endl;
 
 	char more;
@@ -281,6 +337,8 @@ int main(int argc, char const *argv[])
 		cout <<"(iv)Preorder traversal ";
 		cout <<"Inorder traversal ";
 		cout <<"Postorder traversal "<<endl;
+		cout <<"(v)Level by Level traversal"<<endl;
+		cout <<"(vi)Height of tree"<<endl;
 		int choice;
 		cout << "Enter the operation you want to perform :";
 		cin >> choice ;
@@ -302,7 +360,7 @@ int main(int argc, char const *argv[])
 				}
 				break;
 			case 3:
-				cout << " Enter the data you want to delete :"<< endl;
+				cout << "Enter the data you want to delete :";
 				cin >> data;
 				b.delete_node(data);
 				break;
@@ -313,6 +371,14 @@ int main(int argc, char const *argv[])
 				b.interative_inorder_traversal();
 				cout << "postorder traversal "<< endl;
 				b.interative_postorder_traversal();
+				break;
+			case 5:
+				cout << "level by level traversal"<<endl;
+				b.breadth_first_traversal();
+				cout << endl;
+				break;
+			case 6:
+				cout << "Height "<< b.calculateHeight();
 				break;
 			default:
 				cout << "Invalid input "<<endl;
