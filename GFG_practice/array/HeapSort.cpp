@@ -1,14 +1,13 @@
 #include <iostream>
 using namespace std;
 
-
 class HeapSort { 
 public:
 	template <class T>
 	void heapify(T arr[], int n, int i) {
-	    int largest = i; // Initialize largest as root
-	    int l = 2 * i + 1; // left = 2*i + 1
-	    int r = 2 * i + 2; // right = 2*i + 2
+	    int largest = i; 	// Initialize largest as root
+	    int l = 2 * i + 1;  // left = 2*i + 1
+	    int r = 2 * i + 2;  // right = 2*i + 2
 
 	    if (l < n && arr[l] > arr[largest])
 	        largest = l;
@@ -20,6 +19,7 @@ public:
 	        swap(arr[i], arr[largest]);
 
 	        heapify(arr, n, largest);
+	        this->printArray(arr, n);
 	    }
 	}
 
@@ -52,7 +52,7 @@ int main() {
 	cin >> size;
 
 	cout <<"Enter array elements : ";
-	int array[size];
+	char array[size];
 
 	for (int i = 0; i < size; ++i) {
 		cin >> array[i];
