@@ -1,0 +1,33 @@
+MidReversal of linked list 
+
+ListNode* findmiddle(ListNode* node) {
+  ListNode* slow = head;
+  ListNode* fast = head->next;
+
+  while(!fast && !fast->next) {
+    slow = slow->next;
+    fast = fast->next->next;
+  }
+  return slow;
+}
+
+ListNode* reverseMid(ListNode* node) {
+  ListNode* curr = node;
+  ListNode* prev = NULL;
+  ListNode* nextNode = NULL;
+  while(curr != NULL) {
+    nextNode = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = nextNode;
+  }
+  return prev;
+}
+
+
+int main() {
+  ListNode* head;
+  ListNode* mid = findmiddle(head);
+  mid->next = reverseMid(mid->next);
+  return 0;
+}

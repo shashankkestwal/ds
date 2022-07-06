@@ -1,0 +1,105 @@
+?? logic and code for DFS and Cycle detection in graphs
+
+?? logic for BFS
+
+
+bool DetectCycle(int vertex, int parent, bool visited[]) {
+
+  bool ans = false;
+  visited[vertex] = true;
+  cout << vertex;
+
+  for(all childs of vertex ) {
+    // parent and child are same then do nothing
+
+    if(visited[child] && child == parent) continue;
+
+    // child is already visited and its parent is not matched
+    //  cycle is detected here 
+    if(visited[child]) return true;
+     
+
+    // using OR operator because if only one true is returned total ans must be true
+
+    ans |= dsf(child, vertex);
+  }
+  return ans
+}
+
+
+
+void BFS (int source, bool visited[]) {
+  queue<int> q;
+  q.push(source);
+  visited[source] = 1;
+  for(int i : graph[source]) {
+    int curr = q.front();
+    q.pop(); 
+    cout << curr << "   ";
+    if(visited[curr] == false) {
+      q.push(curr);
+      visited[curr] = 1;
+    }
+  }
+}
+
+
+
+
+
+
+DEPTH FIRST TRAVERSAL also used to find the components of the graph. 
+BASE LOGIC 
+1. Visit one node.
+
+2. explore all its adjacent vertices i.e call dfs on children vertices again.
+
+3. return your output. 
+
+___________________CODING IS NOT A EASY  ___________________
+
+
+
+
+
+
+ROADMAP JUNE 2022 }
+learn DSA in this whole june
+  -> leetcode 150+ questions. 
+  -> summer dsa sheet prepared 100+ questions
+  -> topic like DP , graphs , trees and recursion done
+
+
+
+
+
+
+
+
+vector<vector<int>> ans;
+    
+
+    
+    
+    while(!q.empty()){
+        
+        vector<int> level;
+        int n = q.size();
+        
+        for(int i = 0; i < n; i++){
+            
+            TreeNode* node = q.front();
+            q.pop();
+            
+            level.push_back(node->val);
+            
+            if (node->left)
+                q.push(node->left);
+            if (node->right)
+                q.push(node->right);
+            }
+             ans.push_back(level);
+        
+        }
+   
+return ans;
