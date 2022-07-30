@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// O(n^2) time complexity 
 int maxSubarraySumCircular(vector<int>& nums) {
         int n = nums.size();
         int maxSum = INT_MIN;
@@ -23,7 +24,12 @@ int maxSubarraySumCircular(vector<int>& nums) {
 
 
 int main() {
-  vector<int> a = {1,-2,3,-2};
-  cout << maxSubarraySumCircular(a);
-  return 0;
+    float a = numeric_limits<float>::max();
+    cout << a << endl; 
+    int b = INT_MAX;
+    bool c = a <= b;
+    cout << c;
+  // vector<int> a = {1,-2,3,-2};
+  // cout << maxSubarraySumCircular(a);
+  // return 0;
 }
